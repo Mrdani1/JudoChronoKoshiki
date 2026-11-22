@@ -384,6 +384,7 @@ function tick(){
 async function lock(){try{wl=await navigator.wakeLock.request("screen")}catch(e){}}
 function start(){if(rando){sc=newSc();winner=null;lastEnd=null}cycle=1;mode="run";setPhase(prepOn?"prep":"fight");prepOn?sndTick():sndFight();lock();paint();raf=requestAnimationFrame(tick)}
 function toggle(){
+  if(rando&&mode==="end"){resetIdle();return}   /* randori: "otra vez" solo deja todo a 0; el siguiente toque empieza */
   if(mode==="idle"||mode==="end")start();
   else if(mode==="run"){mode="pause";cancelAnimationFrame(raf);paint()}
   else{mode="run";endAt=phase==="golden"?performance.now()-remaining*1000:performance.now()+remaining*1000;if(osae.side)osaeAt=performance.now()-osaeT*1000;lock();paint();raf=requestAnimationFrame(tick)}
